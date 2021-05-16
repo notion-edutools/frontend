@@ -143,11 +143,13 @@
         This is an integration for Notion that provides various options for integrating with Canvas's API.
     </p>
 
-    <h2>Authorization</h2>
-    <p>
-        You must authorize the application before you do anything else. Don't worry - the process is simple. Just click the button below.<br>
-        <a onclick="window.open(this.href, 'Authorization Window', 'location=no,height=720,width=550');return false;" class=auth id=auth target="_blank" href="https://api.notion.com/v1/oauth/authorize?client_id=33860001-1ebd-4283-a281-0c6c3e88f828&redirect_uri=https%3A%2F%2Fc2n.srg.id.au%2F_oauth&response_type=code">Add to Notion <img src="https://www.notion.so/images/favicon.ico"></a>
-    </p>
+    <span id=reauth-required>
+        <h2>Authorization</h2>
+        <p>
+            You must authorize the application before you do anything else. Don't worry - the process is simple. Just click the button below.<br>
+            <a onclick="window.open(this.href, 'Authorization Window', 'location=no,height=720,width=550');return false;" class=auth id=auth target="_blank" href="https://api.notion.com/v1/oauth/authorize?client_id=33860001-1ebd-4283-a281-0c6c3e88f828&redirect_uri=https%3A%2F%2Fc2n.srg.id.au%2F_oauth&response_type=code">Add to Notion <img src="https://www.notion.so/images/favicon.ico"></a>
+        </p>
+    </span>
 
     <h2>Currently available actions</h2>
     <ul>
@@ -175,5 +177,13 @@
 
     <br>
     <a class=by-srg href="//srg.id.au">This service is created and hosted by srg. <img style="height: 1.8rem;" src="//cdn.srg.codes/images/icon/icon-192.png"></a>
+
+    <script>
+
+    if ( !localStorage.getItem("notion_auth") || ((new Date().getTime() - JSON.parse(localStorage.getItem("notion_auth")).on) > 6.048e8)) {
+        document.getElementById("reauth_required").style.display = "unset";
+    }
+
+    </script>
 
 </body>

@@ -280,6 +280,10 @@
                 document.getElementById('fail-data').innerText = JSON.stringify(j, null, 2);
 
                 e.target.disabled = false;
+            
+                if (j.reauth) {
+                    document.getElementById("reauth_required").style.display = "unset";
+                }
 
             }
 
