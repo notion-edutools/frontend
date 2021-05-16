@@ -64,6 +64,46 @@
 
         }
 
+        .by-srg {
+            text-decoration: none;
+            color: black;
+            border: 2px solid #F24236;
+            padding: 10px;
+            border-radius: 2px;
+            margin: 10px;
+
+            display: inline-flex;
+            flex-flow: row;
+            align-items: center;
+        }
+
+        .by-srg img { display: inline-block; margin-left: 10px; }
+
+        a.auth {
+            display: inline-flex;
+
+            align-items: center;
+            flex-flow: row nowrap;
+            color: black;
+            text-decoration: none;
+
+            margin: 10px 0;
+
+            padding: 12px;
+            border-radius: 3px;
+            /* height: 36px; */
+
+            user-select: none;
+
+            border: 1px solid rgb(55, 53, 47);
+
+        }
+
+        a.auth img {
+            height: 1.5rem;
+            margin-left: 10px;
+        }
+
     </style>
 
 </head>
@@ -73,6 +113,12 @@
     <h1>Canvas to Notion Integration</h1>
     <p>
         This is an integration for Notion that provides various options for integrating with Canvas's API.
+    </p>
+
+    <h2>Authorization</h2>
+    <p>
+        You must authorize the application before you do anything else. Don't worry - the process is simple. Just click the button below.<br>
+        <a onclick="window.open(this.href, 'Authorization Window', 'location=no,height=720,width=550');return false;" class=auth id=auth target="_blank" href="https://api.notion.com/v1/oauth/authorize?client_id=33860001-1ebd-4283-a281-0c6c3e88f828&redirect_uri=https%3A%2F%2Fc2n.srg.id.au%2F_oauth&response_type=code">Add to Notion <img src="https://www.notion.so/images/favicon.ico"></a>
     </p>
 
     <h2>Currently available actions</h2>
@@ -87,6 +133,19 @@
     </ul>
 
     <h2>Contact</h2>
-    For any bugs or comments, <a href="https://github.com/notion-canvas-integration/frontend/issues">open an issue on Github</a>.
+    <ul>
+        <li>
+            <a href="privacy-policy/">Privacy policy</a>
+        </li>
+
+        <li>
+            <a href="terms-of-use/">Terms of use</a>
+        </li>
+    </ul><br>
+
+    For any bugs or comments, <a href="https://github.com/notion-canvas-integration/frontend/issues">open an issue on Github</a>.<br>
+
+    <br>
+    <a class=by-srg href="//srg.id.au">This service is created and hosted by srg. <img style="height: 1.8rem;" src="//cdn.srg.codes/images/icon/icon-192.png"></a>
 
 </body>

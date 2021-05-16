@@ -31,7 +31,7 @@
 
         .not-yet, .domain-dependent { opacity: 0.5; cursor: not-allowed; }
         .domain-dependent { pointer-events: none; }
-        .domain-dependent::after { content: " (Not available until you follow step 1)" }
+        .domain-dependent::after { content: " (Not available until you enter your course URL)" }
         code span { user-select: all; }
 
         .monospace { font-family: monospace; }
@@ -78,6 +78,31 @@
             color: white;
         }
 
+        a.auth {
+            display: inline-flex;
+
+            align-items: center;
+            flex-flow: row nowrap;
+            color: black;
+            text-decoration: none;
+
+            margin: 10px 0;
+
+            padding: 12px;
+            border-radius: 3px;
+            /* height: 36px; */
+
+            user-select: none;
+
+            border: 1px solid rgb(55, 53, 47);
+
+        }
+
+        a.auth img {
+            height: 1.5rem;
+            margin-left: 10px;
+        }
+
     </style>
 
 </head>
@@ -91,7 +116,14 @@
 <form>
     <ol>
 
-        <li>Paste your courses link here: <input type=url id=course-link> and press <button id=parse-course-link>go</button>. Don't worry, this step happens entirely in your browser and it's so that we can parse your Canvas domain and course ID.</li><br>
+        <span style="display: none;" id=reauth_required>
+            <li><b>
+                You have not authenticated with Notion, or your previous authentication may have expired. Please click the button below to reauthorize.<br>
+                <a onclick="window.open(this.href, 'Authorization Window', 'location=no,height=720,width=550');return false;" class=auth id=auth target="_blank" href="https://api.notion.com/v1/oauth/authorize?client_id=33860001-1ebd-4283-a281-0c6c3e88f828&redirect_uri=https%3A%2F%2Fc2n.srg.id.au%2F_oauth&response_type=code">Add to Notion <img src="https://www.notion.so/images/favicon.ico"></a>
+            </b></li>
+        </span>
+
+        <li>Paste your course's link here: <input type=url placeholder="https://mydomain.instructure.com/courses/0000/assignments" id=course-link> and press <button id=parse-course-link>go</button>. Don't worry, this step happens entirely in your browser and it's so that we can parse your Canvas domain and course ID.</li><br>
         <code id=course-link-output class="block not-yet">
 
             Parsed Canvas domain: <span id=pcd>[None yet]</span><br/>
@@ -137,6 +169,10 @@
 </form>
 
 <script>
+
+    if ( !localStorage.getItem("notion_auth") || ((new Date().getTime() - localStorage.getItem("notion_auth").on) > 6.048e8)) {
+        document.getElementById("reauth_required").style.display = "unset";
+    }
 
     let canvas_domain, course, url_input = document.getElementById("course-link");
     const between = (str, a, b) => {
@@ -198,7 +234,8 @@
                 cdom: canvas_domain,
                 cid: course,
                 notionUri: document.getElementById("table-link").value,
-                ctoken: document.getElementById("lms-access-token").value
+                ctoken: document.getElementById("lms-access-token").value,
+                notion_token: localStorage.getItem("notion_auth").code
             })
         }).then(r => r.json()).then(j => {
 
