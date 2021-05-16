@@ -170,7 +170,7 @@
 
 <script>
 
-    if ( !localStorage.getItem("notion_auth") || ((new Date().getTime() - localStorage.getItem("notion_auth").on) > 6.048e8)) {
+    if ( !localStorage.getItem("notion_auth") || ((new Date().getTime() - JSON.parse(localStorage.getItem("notion_auth")).on) > 6.048e8)) {
         document.getElementById("reauth_required").style.display = "unset";
     }
 
@@ -235,7 +235,7 @@
                 cid: course,
                 notionUri: document.getElementById("table-link").value,
                 ctoken: document.getElementById("lms-access-token").value,
-                notion_token: localStorage.getItem("notion_auth").code
+                notion_token: JSON.parse(localStorage.getItem("notion_auth")).code
             })
         }).then(r => r.json()).then(j => {
 

@@ -38,7 +38,7 @@
         if (p.get('error') || !(p.get("code"))) {
             document.getElementById("fail").style.display = "inline";
         } else {
-            localStorage.setItem('notion_auth', {on: new Date().getTime(), code: p.get("code")});
+            localStorage.setItem('notion_auth', JSON.stringify({on: new Date().getTime(), code: p.get("code")}));
             window.close();
         }
 
