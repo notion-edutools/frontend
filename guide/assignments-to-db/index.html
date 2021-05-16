@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<head>
+
+    <title>Guide to Canvas &lt;-&gt; Notion integration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+        body {
+            line-height: 1.3;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        input, button {
+            font-size: 1rem;
+            font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        code.block {
+            background-color: #EEE;
+            color: black;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+
+            display: block;
+            padding: 10px;
+
+            user-select: none;
+
+            max-width: 90%;
+        }
+
+        .not-yet, .domain-dependent { opacity: 0.5; cursor: not-allowed; }
+        .domain-dependent { pointer-events: none; }
+        .domain-dependent::after { content: " (Not available until you follow step 1)" }
+        code span { user-select: all; }
+
+        .monospace { font-family: monospace; }
+
+        .callout {
+
+            background-color: #FFE3DC;
+            padding: 20px;
+            margin: 10px 0;
+            /* border-radius: 5px; */
+
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button.big, input[type=submit].big {
+
+            border: 1px solid black;
+            padding: 7px;
+            background-color: #C2E812;
+            border-radius: 2px;
+            color: black;
+            /* border: none; */
+            display: block;
+
+            margin: 10px 0;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>Guide to Canvas-to-Notion integration</h1>
+<form>
+    <ol>
+
+        <li>Paste your courses link here: <input type=url id=course-link> and press <button id=parse-course-link>go</button>. Don't worry, this step happens entirely in your browser and it's so that we can parse your Canvas domain and course ID.</li><br>
+        <code id=course-link-output class="block not-yet">
+
+            Parsed Canvas domain: <span id=pcd>[None yet]</span><br/>
+            Parsed course ID: <span id=pcid>[None yet]</span>
+
+        </code><br>
+
+        <li>Go to <a class=domain-dependent href="https://#CANVAS_DOMAIN/profile/settings">Canvas settings</a>, scroll down, and click '+ New Access Token'.<br>
+            You can call this token something meaningful or just enter a random value. The expiry date is the time that our servers will be restricted from accessing your account.<br>
+            If you want to use this tool a lot, you can set it to a long time in the future. Or, for added security and if you just want to use this tool once, you can set it to ~10 minutes in the future.<br>
+            Our source code is open source and easy to self-host if you prefer.</li><br>
+
+        <li>You will be shown an access token. Paste this token here: <input type="text" class=monospace id=lms-access-token required></li>
+        <br>
+        
+        <li>Go to <a href="https://www.notion.so/shaunakg/380c311b9e2d46fbb6c0125316a255d8">this Notion table</a> and duplicate it to your own workspace.</li><br>
+        <li>You can edit everything about the duplicated table to your liking except the already-added columns (feel free to add more).</li><br>
+        <li>Share the <b>duplicated</b> table with the integration 'Canvas Tasks to Notion' by pressing the 'Add people, emails, groups or integrations' box and typing 'Canvas Tasks to Notion' in the popup, and while you're in the 'Share' panel, copy the link to the table and paste it here: <input required id="table-link" type=url></li>
+
+    </ol>
+
+    <div class="callout domain-dependent">
+        If you've followed all the steps, you are now ready to start the duplication of Canvas assignments to your Notion table. <input type=submit class=big value="Click here to start">
+    </div> 
+</form>
+
+<script>
+
+    let canvas_domain, course, url_input = document.getElementById("course-link");
+    const between = (str, a, b) => {
+
+        return str.split("/")[4]
+
+    }
+
+    if ( new URLSearchParams(location.search).get("prefill") ) {
+
+        const pfj = JSON.parse(new URLSearchParams(location.search).get("prefill"));
+
+        Object.keys(pfj).forEach(k => {
+
+            document.getElementById(k).value = pfj[k];
+
+        });
+
+        if (Object.keys(pfj).includes("course-link")) { document.getElementById("parse-course-link").click() }
+
+    }
+
+    document.getElementById("parse-course-link").onclick = (e) => {
+
+        e.preventDefault();
+
+        canvas_domain = new URL(url_input.value).hostname;
+        course = between(url_input.value, "courses/", "/");
+
+        document.querySelectorAll(".domain-dependent").forEach((e) => {
+
+            e.classList.remove("domain-dependent");
+            e.href && (e.href = e.href.replace("#CANVAS_DOMAIN", canvas_domain));
+
+        });
+
+        document.getElementById("pcd").innerText = canvas_domain;
+        document.getElementById("pcid").innerText = course;
+
+        document.getElementById("course-link-output").classList.remove("not-yet");
+ 
+    }
+
+</script>
+
+</body>
