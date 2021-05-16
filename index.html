@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<head>
+
+    <title>Guide to Canvas &lt;-&gt; Notion integration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+        body {
+            line-height: 1.3;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        input, button {
+            font-size: 1rem;
+            font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        code.block {
+            background-color: #EEE;
+            color: black;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+
+            display: block;
+            padding: 10px;
+
+            user-select: none;
+
+            max-width: 90%;
+        }
+
+        .not-yet, .domain-dependent { opacity: 0.5; cursor: not-allowed; }
+        .domain-dependent { pointer-events: none; }
+        .domain-dependent::after { content: " (Not available until you follow step 1)" }
+        code span { user-select: all; }
+
+        .monospace { font-family: monospace; }
+
+        .callout {
+
+            background-color: #FFE3DC;
+            padding: 20px;
+            margin: 10px 0;
+            /* border-radius: 5px; */
+
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button.big, input[type=submit].big {
+
+            border: 1px solid black;
+            padding: 7px;
+            background-color: #C2E812;
+            border-radius: 2px;
+            color: black;
+            /* border: none; */
+            display: block;
+
+            margin: 10px 0;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Canvas to Notion Integration</h1>
+    <p>
+        This is an integration for Notion that provides various options for integrating with Canvas's API.
+    </p>
+
+    <h2>Currently available actions</h2>
+    <ul>
+        <li><a href="guide/assignments-to-db/">Get all assignments for a Canvas course and format them in a Notion database, with due date.</a></li>
+    </ul>
+
+    <h2>Source code</h2>
+    <ul>
+        <li>Frontend (this website) source: <a href="https://github.com/notion-canvas-integration/frontend">https://github.com/notion-canvas-integration/frontend</a></li>
+        <li>Backend (server) source: <a href="https://github.com/notion-canvas-integration/server">https://github.com/notion-canvas-integration/server</a></li>
+    </ul>
+
+    <h2>Contact</h2>
+    For any bugs or comments, <a href="https://github.com/notion-canvas-integration/frontend/issues">open an issue on Github</a>.
+
+</body>
