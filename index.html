@@ -143,7 +143,7 @@
         This is an integration for Notion that provides various options for integrating with Canvas's API.
     </p>
 
-    <span id=reauth-required>
+    <span id=reauth_required>
         <h2>Authorization</h2>
         <p>
             You must authorize the application before you do anything else. Don't worry - the process is simple. Just click the button below.<br>
@@ -180,8 +180,8 @@
 
     <script>
 
-    if ( !localStorage.getItem("notion_auth") || ((new Date().getTime() - JSON.parse(localStorage.getItem("notion_auth")).on) > 6.048e8)) {
-        document.getElementById("reauth_required").style.display = "unset";
+    if ( localStorage.getItem("notion_auth") && ((new Date().getTime() - JSON.parse(localStorage.getItem("notion_auth")).on) < 6.048e8)) {
+        document.getElementById("reauth_required").style.display = "none";
     }
 
     </script>
