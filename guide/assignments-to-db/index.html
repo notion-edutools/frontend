@@ -63,6 +63,21 @@
 
         }
 
+        .callout.success {
+            background-color: #9AB87A;
+            color: black;
+        }
+
+        .callout.failure {
+            background-color: #FF2E00;
+            color: white;
+        }
+
+        .callout.failure code.block {
+            background-color: black;
+            color: white;
+        }
+
     </style>
 
 </head>
@@ -99,8 +114,26 @@
     </ol>
 
     <div class="callout domain-dependent">
-        If you've followed all the steps, you are now ready to start the duplication of Canvas assignments to your Notion table. <input type=submit class=big value="Click here to start">
+        If you've followed all the steps, you are now ready to start the duplication of Canvas assignments to your Notion table. <input type=submit class=big id=go value="Click here to start">
     </div> 
+
+    <div id=success-callout class="callout success" style="display:none">
+        
+        <h2>Success!</h2>
+        <p>
+            Check the table at <a href="#" id=to-table></a> to see your assignments in Notion.<br>
+            You can even switch to a Calendar view from the 'View' dropdown at the left.
+        </p>
+    
+    </div>
+
+    <div id=failure-callout class="callout failure" style="display:none">
+        
+        <h2>Failure</h2>
+        <code class="block" id=fail-data></code>
+    
+    </div>
+
 </form>
 
 <script>
@@ -145,6 +178,56 @@
 
         document.getElementById("course-link-output").classList.remove("not-yet");
  
+    }
+
+    document.getElementById("go").onclick = (e) => {
+
+        e.preventDefault();
+        e.target.disabled = true;
+        
+        fetch("https://notion-canvas-2imy5ahygq-ts.a.run.app/actions/assn2db", {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            body: JSON.stringify({
+                cdom: canvas_domain,
+                cid: course,
+                notionUri: document.getElementById("table-link").value,
+                ctoken: document.getElementById("lms-access-token").value
+            })
+        }).then(r => r.json()).then(j => {
+
+            if (j.success) {
+
+                document.getElementById("success-callout").style.display = "block";
+                document.getElementById("to-table").href = document.getElementById("table-link").value;
+                document.getElementById("to-table").innerText = document.getElementById("table-link").value;
+
+                e.target.disabled = false;
+
+            } else {
+
+                document.getElementById("failure-callout").style.display = "block";
+                document.getElementById('fail-data').innerText = JSON.stringify(j, null, 2);
+
+                e.target.disabled = false;
+
+            }
+
+        }).catch(e => {
+
+            document.getElementById("failure-callout").style.display = "block";
+            document.getElementById('fail-data').innerText = JSON.stringify(e, null, 2);
+
+            e.target.disabled = false;
+
+        });
+
     }
 
 </script>
