@@ -106,6 +106,8 @@
     document.getElementById("auth").onclick = (e) => {
         e.preventDefault();
 
+        document.getElementById("reauth_required").style.color = "black";
+
         let win = window.open(e.target.href, 'Authorization Window', 'location=no,height=720,width=550');
 
         win.onbeforeunload = () => {
@@ -124,6 +126,7 @@
             return false;
         } else {
             document.getElementById("reauth_required").style.display = "none";
+            document.getElementById("reauth_required").style.color = "black";
             return true;
         }
     }
@@ -224,6 +227,8 @@
             
                 if (j.reauth) {
                     document.getElementById("reauth_required").style.display = "block";
+                    document.getElementById("reauth_required").style.color = "red";
+                    document.getElementById("reauth_required").scrollIntoView();
                 }
 
             }
