@@ -67,7 +67,7 @@
             <i>If your Canvas admin has disabled the generation of access tokens, you will not see the '+ New Access Token' option and you will not be able to use this tool. Sorry!</i>   
         </li><br>
 
-        <li>You will be shown an access token. Paste this token here: <input type="text" class=monospace id=lms-access-token required></li>
+        <li>You will be shown an access token. Paste this token here: <input type="text" class=monospace id=lms-access-token required> (<label><input type="checkbox" id=save_canvas_token> save this token in your local storage?</label>) </li>
         <br>
         
         <li>Go to <a href="https://www.notion.so/shaunakg/380c311b9e2d46fbb6c0125316a255d8">this Notion table</a> and duplicate it to your own workspace.</li><br>
@@ -151,6 +151,11 @@
 
     }
 
+    if (window.localStorage.getItem("canvas_token")) {
+        document.getElementById("lms-access-token").value = window.localStorage.getItem("canvas_token");
+        document.getElementById("save_canvas_token").checked = true;
+    }
+
     document.getElementById("parse-course-link").onclick = (e) => {
 
         e.preventDefault();
@@ -178,6 +183,8 @@
 
         e.preventDefault();
         e.target.disabled = true;
+        
+        !document.getElementById("save_canvas_token").checked && localStorage.removeItem("canvas_token")
 
         document.getElementById("success-callout").style.display = "none";
         document.getElementById("failure-callout").style.display = "none";
@@ -203,6 +210,8 @@
                 document.getElementById("success-callout").style.display = "block";
                 document.getElementById("to-table").href = document.getElementById("table-link").value;
                 document.getElementById("to-table").innerText = document.getElementById("table-link").value;
+
+                document.getElementById("save_canvas_token").checked && window.localStorage.setItem("canvas_token", document.getElementById("lms-access-token").value);
 
                 e.target.disabled = false;
 
