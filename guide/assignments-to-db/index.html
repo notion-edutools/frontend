@@ -166,7 +166,7 @@
 
         </code><br>
 
-        <li>Go to <a class=domain-dependent href="https://CANVAS.DOMAIN/profile/settings">Canvas settings</a>, scroll down, and click '+ New Access Token'.<br>
+        <li>Go to <a class=domain-dependent data-href="https://{{canvas.domain}}/profile/settings">Canvas settings</a>, scroll down, and click '+ New Access Token'.<br>
             You can call this token something meaningful or just enter a random value. The expiry date is the time that our servers will be restricted from accessing your account.<br>
             If you want to use this tool a lot, you can set it to a long time in the future. Or, for added security and if you just want to use this tool once, you can set it to ~10 minutes in the future.<br>
             Our source code is open source and easy to self-host if you prefer.</li><br>
@@ -240,7 +240,9 @@
         document.querySelectorAll(".domain-dependent").forEach((e) => {
 
             e.classList.remove("domain-dependent");
-            e.href && (e.href = e.href.replace("CANVAS.DOMAIN", canvas_domain));
+            if (e.dataset.href) {
+                e.href = e.dataset.href.replaceAll("{{canvas.domain}}", canvas_domain);
+            }
 
         });
 
