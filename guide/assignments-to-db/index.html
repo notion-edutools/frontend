@@ -83,7 +83,7 @@
         }
 
         .callout.success {
-            background-color: #9AB87A;
+            border: 2px solid #9AB87A;
             color: black;
         }
 
@@ -255,6 +255,9 @@
 
         e.preventDefault();
         e.target.disabled = true;
+
+        document.getElementById("success-callout").style.display = "none";
+        document.getElementById("failure-callout").style.display = "none";
         
         fetch("https://notion-canvas-2imy5ahygq-ts.a.run.app/actions/assn2db", {
             method: 'POST',
