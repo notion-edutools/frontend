@@ -36,7 +36,7 @@
             font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
-        code.block {
+        .block {
             background-color: #EEE;
             color: black;
             font-family: 'Fira Code', 'Courier New', Courier, monospace;
@@ -51,7 +51,7 @@
         .not-yet, .domain-dependent { opacity: 0.5; cursor: not-allowed; }
         .domain-dependent { pointer-events: none; }
         .domain-dependent::after { content: " (Not available until you enter your course URL)" }
-        code span { user-select: all; }
+        code span, pre span { user-select: all; }
 
         .monospace { font-family: monospace; }
 
@@ -88,11 +88,12 @@
         }
 
         .callout.failure {
-            background-color: #FF2E00;
-            color: white;
+            border: 2px solid #FF2E00;
+            /* color: white; */
+            color: black;
         }
 
-        .callout.failure code.block {
+        .callout.failure .block {
             background-color: black;
             color: white;
         }
@@ -196,7 +197,7 @@
     <div id=failure-callout class="callout failure" style="display:none">
         
         <h2>Failure</h2>
-        <code class="block" id=fail-data></code>
+        <pre class="block" id=fail-data></pre>
     
     </div>
 
@@ -282,7 +283,7 @@
             } else {
 
                 document.getElementById("failure-callout").style.display = "block";
-                document.getElementById('fail-data').innerText = JSON.stringify(j, null, 2);
+                document.getElementById('fail-data').innerHTML = JSON.stringify(j, null, 2);
 
                 e.target.disabled = false;
             
@@ -295,7 +296,7 @@
         }).catch(e => {
 
             document.getElementById("failure-callout").style.display = "block";
-            document.getElementById('fail-data').innerText = JSON.stringify(e, null, 2);
+            document.getElementById('fail-data').innerHTML = JSON.stringify(e, null, 2);
 
             e.target.disabled = false;
 
