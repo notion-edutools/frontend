@@ -24,6 +24,7 @@ input, button {
     padding: 10px;
 
     user-select: none;
+    overflow-x: scroll;
 
 }
 
@@ -142,7 +143,6 @@ a.auth img {
     margin-bottom: 15px;
     display: block;
 
-    max-width: 400px;
 
 }
 
