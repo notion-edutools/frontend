@@ -1,0 +1,5 @@
+[[redirects]]
+    from = "/*"
+    to = "https://edutools.srg.id.au/:splat"
+    status = 301
+    force=true
