@@ -38,23 +38,25 @@
 
 <body>
 
+    <article>
+
     <h1>Canvas to Notion Integration</h1>
+
     <p>
         This is an integration for Notion that provides various options for integrating with Canvas's API.
     </p>
 
-    <span id=reauth_required>
-        <h2>Authorization</h2>
-        <p>
-            You must authorize the application before you do anything else. Don't worry - the process is simple. Just click the button below.<br>
-            <a onclick="window.open(this.href, 'Authorization Window', 'location=no,height=720,width=550');return false;" class=auth id=auth target="_blank" href="https://api.notion.com/v1/oauth/authorize?client_id=33860001-1ebd-4283-a281-0c6c3e88f828&redirect_uri=https%3A%2F%2Fc2n.srg.id.au%2F_oauth&response_type=code">Add to Notion <img src="https://www.notion.so/images/favicon.ico"></a>
-        </p>
-    </span>
+    <div id=ToC class=table-of-contents>
+        <h2>Table of Contents</h2>
+    </div>
+
+    <div id=reauth_required>
+        You have not authenticated with Notion, or your previous authentication may have expired. Please click the button below to reauthorize, then continue.<br>
+        <a class=auth id=auth target="_blank" href="../../_oauth/go.html">Add to Notion <img src="https://www.notion.so/images/favicon.ico"></a>
+    </div>
 
     <h2>Currently available actions</h2>
-    <ul>
-        <li><a href="guide/assignments-to-db/">Get all assignments for a Canvas course and format them in a Notion database, with due date.</a></li>
-    </ul>
+    <h3><a href="guide/assignments-to-db/">Get all assignments for a Canvas course and format them in a Notion database, with due date.</a></h3>
 
     <h2>Source code</h2>
     <ul>
@@ -78,11 +80,63 @@
     <br>
     <a class=by-srg href="//srg.id.au">This service is created and hosted by srg. <img style="height: 1.8rem;" src="//cdn.srg.codes/images/icon/icon-192.png"></a>
 
+    </article>
+
     <script>
 
-    if ( localStorage.getItem("notion_auth") && ((new Date().getTime() - JSON.parse(localStorage.getItem("notion_auth")).on) < 6.048e8)) {
-        document.getElementById("reauth_required").style.display = "none";
+    function makeid(length) {
+        var result           = [];
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
+        }
+        return result.join('');
     }
+
+
+    const checkauth = () => {
+        if ( !localStorage.getItem("notion_auth") || ((new Date().getTime() - JSON.parse(localStorage.getItem("notion_auth")).on) > 6.048e8)) {
+            document.getElementById("reauth_required").style.display = "block";
+            return false;
+        } else {
+            document.getElementById("reauth_required").style.display = "none";
+            document.getElementById("reauth_required").style.color = "black";
+            return true;
+        }
+    }
+
+    checkauth();
+
+    document.getElementById("auth").onclick = (e) => {
+        e.preventDefault();
+
+        document.getElementById("reauth_required").style.color = "black";
+
+        let win = window.open(e.target.href, 'Authorization Window', 'location=no,height=720,width=550');
+
+        win.onbeforeunload = () => {
+            if (!checkauth()) {
+                alert("Authorization with Notion has failed. Please report an issue at https://github.com/notion-canvas-integration/frontend/issues.");
+            }
+        }
+
+    }
+
+    var ToC =
+    "<nav role='navigation'>" +
+    "<ul>";
+
+    document.querySelectorAll("h1, h2, h3, h4, h5, h6").forEach((e) => {
+        let title = e.innerText;
+        e.id = makeid(5);
+        let link = "#" + e.id;
+
+        ToC += `<li style="margin-left: ${(parseInt(e.tagName[1]) -1) * 20}px" >${title} <a class=toc-link href="${link}">&#128279;</a></li>`;
+    })
+
+    ToC += "</ul></nav>";
+    document.getElementById('ToC').innerHTML += ToC;
 
     </script>
 

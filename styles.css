@@ -137,9 +137,31 @@ a.auth img {
 #reauth_required {
     
     border: 1px solid red;
-    padding:  20px;
+    padding: 20px;
     border-radius: 3px;
     margin-bottom: 15px;
     display: block;
 
+    max-width: 400px;
+
+}
+
+.toc-link {
+    text-decoration: none;
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.toc-link:hover {
+    opacity: 1;
+}
+
+.table-of-contents {
+    display: block;
+    border-bottom: 1px DASHED rgb(148, 148, 148);
+    /* padding: 20px; */
+    margin: 15px 0;
+
+    /* max-width: 300px; */
+    line-height: 1.5;
 }
