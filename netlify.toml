@@ -1,5 +1,5 @@
 [[redirects]]
     from = "/*"
-    to = "https://edutools.srg.id.au/:splat"
+    to = "https://edutools.srg.id.au/:splat?from_old=c2n.srg.id.au"
     status = 301
     force=true
